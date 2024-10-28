@@ -34,7 +34,7 @@ RUN rm -rf src
 # Step 2: Copy and build the risksrv3 project using Gradle
 COPY actus-riskservice /app/actus-riskservice
 WORKDIR /app/actus-riskservice
-RUN gradle clean build
+RUN gradle clean wrapper build
 
 # Expose port 8082 as default
 EXPOSE 8082
