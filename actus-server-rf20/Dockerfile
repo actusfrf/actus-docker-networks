@@ -32,8 +32,8 @@ RUN mvn clean install
 RUN rm -rf src
 
 # Step 2: Copy and build the risksrv3 project using Gradle
-COPY actus-webapp /app/actus-webapp
-WORKDIR /app/actus-webapp
+COPY actus-service /app/actus-service
+WORKDIR /app/actus-service
 RUN gradle clean build
 
 # Expose port 8083 as default
