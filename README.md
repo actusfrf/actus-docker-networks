@@ -39,6 +39,17 @@ Steps.
 * For config1:  > docker compose -f config1-docker-actus-rf20 -p config1-docker-actus-rf20 up
 * For config2:  > docker compose -f config2-docker-actus-rf20 -p config2-docker-actus-rf20 up
 
+### View, test,  or stop your docker compose network
+Use Docker Desktop Dashboard to view the docker compose network you have started.
 
+The sequence of commands in docker-actus-rf20/actus-riskserver-ce/actus-riskservice/tests/TestB_script.txt
+can be run from a terminal to validate that the installation is working 
+
+To stop the network use the stop button in Docker Desktop Dashboard , or CNTROL C in the terminal 
+window where you issued > docker compose ... up will do it. 
+
+### Building images locally using the provided Dockerfiles
+
+docker compose up 
       
 
