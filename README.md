@@ -33,11 +33,11 @@ Steps.
 1. You must have Docker Desktop or some othe docker daemon installed in your environment
 2. Clone this git repository to your local environment.
 3. Download or build the required images - as listed above- to make them available locally
-.. * downloading using docker pull comands is simpler
-.. * building in your local environment is described below
+* downloading using docker pull comands is simpler
+* building in your local environment is described below
 4.  Go into  the docker-actus-rf20 folder
-.. * For config1:  > docker compose -f config1-docker-actus-rf20 -p config1-docker-actus-rf20 up
-.. * For config2:  > docker compose -f config2-docker-actus-rf20 -p config2-docker-actus-rf20 up
+* For config1:  > docker compose -f config1-docker-actus-rf20 -p config1-docker-actus-rf20 up
+* For config2:  > docker compose -f config2-docker-actus-rf20 -p config2-docker-actus-rf20 up
 
 
       
