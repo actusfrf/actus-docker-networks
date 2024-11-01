@@ -49,7 +49,20 @@ To stop the network use the stop button in Docker Desktop Dashboard , or CNTROL 
 window where you issued > docker compose ... up will do it. 
 
 ### Building images locally using the provided Dockerfiles
+For example - to build the image fnparr/actus-server-rf20:mdb27017 
+* go to the folder docker-actus-rf20/actus-server-rf20
+* edit file docker-actus-rf20/actus-server-rf20/actus-service/src/main/resource/application.properties to make sure spring.data.mongodb.port=27017
+* change it to this value if it was set to 27018
+* you need to populate docker-actus-rf20/actus-server-rf20/actus-core/src/main with java source code from https://github.com/actus-core/src/main/java branch rf2dev
+  * this can be done with a recursive copy cp -r on linux or MacOS
+* Issue the command: > docker build . -t fnparr/actus-server-rf20:mdb27017 --no-cache
+* the image will be visible as a local image in your Docker Desktop Dashboard.
 
-docker compose up 
-      
+Setting the spring.data.mongodb.port=27018instead of 27107 and issuing the same docker build command will generate the :mdb27018 image.
+
+A similar process of:
+* copying in actus-core source java code into docker-actus-rf20/actus-riskserver-ce/actus-core/src/main/
+* setting the appropriate value of spring.data.mongodb.port in docker-actus-rf20/actus-riskserver-ce/actus-riskservice/src/main/resources/application. properties 
+*  Issue the command: > docker build . -t fnparr/actus-riskserver-ce:mdb27017 --no-cache   
+ will build that image. ( We have shown the 27017 case )      
 
