@@ -7,12 +7,12 @@ services:
       - mongo_data:/data/db
 
   actus-riskserver-ce-2: # specify service name as specified in application.properties of actus-service
-    image: actus-riskserver-ce:mdb27018   #currently local image (needs to be built first) will be replaced with a published imaged
+    image: fnparr/actus-riskserver-ce:mdb27018   #currently local image (needs to be built first) will be replaced with a published imaged
     ports:
       - "8082:8082" # Change to the appropriate port if needed
 
   actus-server-rf20-2:
-    image: actus-server-rf20:mdb27018 #currently local image (needs to be built first) will be replaced with a published imaged
+    image: fnparr/actus-server-rf20:mdb27018 #currently local image (needs to be built first) will be replaced with a published imaged
     ports:
       - "8083:8083"  # Change to the appropriate port if needed
 volumes:
