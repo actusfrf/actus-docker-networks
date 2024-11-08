@@ -30,17 +30,19 @@ At this point if you have docker desktop installed - you should be able to see i
 *   a docker network config2-docker-actus-rf20 which can be expanded to show running containers: actus-server-rf20-2, actus-riskserver-ce-2, mongodb
 
 #### Validation
-THe following steps can be used to validate that you have a working QuickStart ACTUS installation. 
-5.  Start a new terminal window and navigate to ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB
-6.  Run the (linux/MacOS) command:   > source putUst5Y_falling.txt
+The following steps can be used to validate that you have a working QuickStart ACTUS installation. 
+
+1.  Start a new terminal window and navigate to ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB
+2.  Run the (linux/MacOS) command:   > source putUst5Y_falling.txt
     * this will the actus-riskserver-ce risk data api to insert a new reference index into the persistent mongodb risk store
     * the response from the command should end with the line > Reference Index successfuly created
-7.  Run the command:   > curl -v http://localhost:8082/findAllReferenceIndexes
+3.  Run the command:   > curl -v http://localhost:8082/findAllReferenceIndexes
     * this will read back the newly created reference index data from the mongo risk Store and display it
-8.  Run the command:   > source l3PAMwRF.txt
+4.  Run the command:   > source l3PAMwRF.txt
     * this will return and display the cashflows generate by the actus service for simulating a contract
     * early in the displayed cashflow the name value pair:  > "status":"Success"
-      indicates that contract simulation was successful
+      indicates that contract simulation was successful.
+      
 If all of the above tests run as expected, you have a working actus-riskserver-ce container, properly configured to use 
 persistent storage in a mongodb container and an actus-riskserver. capable of simulating contract. At this point the 
 more complete sequence of tests in ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB/TestB_script.txt can be run.
