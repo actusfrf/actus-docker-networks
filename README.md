@@ -29,7 +29,8 @@ At this point if you have docker desktop installed - you should be able to see i
 *   locally copied and saved images for actus-server-rf20:27018, actus-riskserver-ce:27018 and mongodb
 *   a docker network config2-docker-actus-rf20 which can be expanded to show running containers: actus-server-rf20-2, actus-riskserver-ce-2, mongodb
 
-#### Validating that you have a working QuickStart ACTUS installation. 
+#### Validation
+THe following steps can be used to validate that you have a working QuickStart ACTUS installation. 
 5.  Start a new terminal window and navigate to ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB
 6.  Run the (linux/MacOS) command:   > source putUst5Y_falling.txt
     * this will the actus-riskserver-ce risk data api to insert a new reference index into the persistent mongodb risk store
@@ -40,6 +41,9 @@ At this point if you have docker desktop installed - you should be able to see i
     * this will return and display the cashflows generate by the actus service for simulating a contract
     * early in the displayed cashflow the name value pair:  > "status":"Success"
       indicates that contract simulation was successful
+If all of the above tests run as expected, you have a working actus-riskserver-ce container, properly configured to use 
+persistent storage in a mongodb container and an actus-riskserver. capable of simulating contract. At this point the 
+more complete sequence of tests in ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB/TestB_script.txt can be run.
 
 ## Alternate ACTUS Service configurations
 ### Using an already installed MongoDb service 
