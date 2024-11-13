@@ -1,0 +1,1 @@
+docker build . -t fnparr/actus-server-rf20:nodb --no-cache

@@ -1,1 +1,1 @@
-rootProject.name = "actus-webapp"
+rootProject.name = "actus-service"
