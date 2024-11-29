@@ -6,7 +6,8 @@ This repository provides materials to build and configure a network of docker co
 For new ACTUS users wanting to deploy and ACTUS contract simulation service quickly and start experimenting with it, it is recommended for an initial network to include:
 *  actus-server-rf20 docker container - with a contract simulation API and contract type specific logic to simulate future cashflows of any contract
 *  actus-riskserver-ce docker container - providing an external community-edition riskservice with a risk entity store api and the risk factor 2.0 interface to provide the actus-server-rf20 risk model observation results
-*  a mongodb docker containing providing persistent storage for risk entities created using the risk entity store api to the actus-riskserver-ce
+*  a mongodb docker container providing persistent storage for risk entities created using the risk entity store api to the actus-riskserver-ce
+*  an actus-rshiny-demo docker container providing a reactive demo showing how an actus service can be used to simulate futurecashflows of ACTUS contracts and portfolios under different interest rate risk scenarios 
 
 In this configuration, installing the dockerized mongodb database container to listen on port 27018 will reduce the risk of port collisions with any existing installed mongodb service.
 
@@ -14,23 +15,38 @@ In this configuration, installing the dockerized mongodb database container to l
 ### Steps
 #### Prerequisites
 *   You must have docker (a docker daemon) installed in your environment. Installing Docker Desktop is a convenient way to do this. Documentation on how to install Docker Desktop can be found under: https://docs.docker.com/desktop/ 
-*   Ports 8082 8083 and 27018 in your work environment must be available ( i.e. not in use by some other application )
+*   Ports 8082 8083 3000 and 27018 in your work environment must be available ( i.e. not in use by some other application )
     *  If this quickstart ACTUS deployment is being run a second time - you may need to stop and exit previous processes using these ports      
 
 #### Installation
 1.  Navigate to a folder where you want to install your ACTUS service - we will refer to this folder as ACTUS_BASE
 2.  Clone this git repository to a local copy in your ACTUS_BASE folder using the command: > git clone https://github.com/fnparr/docker-actus-rf20.git
 3.  Navigate to the ACTUS_BASE/docker-actus-rf20 folder
-4.  Issue the command: > docker compose -f config2-docker-actus-rf20.yml -p config2-docker-actus-rf20 up
+4.  Issue the command: > docker compose -f quickstart-docker-actus-rf20.yml -p quickstart-docker-actus-rf20 up
 
-The teminal where you issues this command will start displaying console scripts of the started containers and network. 
+The teminal where you issued this command will start displaying console scripts of the started containers and network. 
 
 At this point if you have docker desktop installed - you should be able to see in its dashboard:
-*   locally copied and saved images for actus-server-rf20:27018, actus-riskserver-ce:27018 and mongodb
-*   a docker network config2-docker-actus-rf20 which can be expanded to show running containers: actus-server-rf20-2, actus-riskserver-ce-2, mongodb
+*    In the images panel, locally copied and saved images for:
+     * actus-server-rf20:27018
+     *   actus-riskserver-ce:27018
+     *   mongodb
+*    in the containers panel
+     *   a docker-compose network named quickstart-docker-actus-rf20
+     *   if you click to expand this - running containers: 
+         *    actus-server-rf20:nodb
+         *    actus-riskserver-ce:mdb27018
+         *    actus-rshiny-demo:b03
+         *    mongodb
 
-#### Validation
+#### Experiment with the actus-rshiny-demo to see how ACTUS can simulate contract cashflows 
+ *(MORE GUIDANCE NEEDED HERE)*
+
+#### Experiment with curl commands requesting ACTUS services from the command line 
 The following steps can be used to validate that you have a working QuickStart ACTUS installation. 
+If you want to build an application using an ACTUS service to simulate future cashflows of an ACTUS contract defined by you,
+using interest rate and market risk scnarios defined by you, the flow through your application is likely to match some part  or subset  
+of the of the sequence of validation tests described below. 
 
 1.  Start a new terminal window and navigate to ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB
 2.  Run the (linux/MacOS) command:   > source putUst5Y_falling.txt
