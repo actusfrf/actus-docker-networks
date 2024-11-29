@@ -1,0 +1,24 @@
+services:
+  mongodb: #specify the service name as specified in application.properties of actus-service / actus-riskservice
+    image: mongodb/mongodb-community-server:6.0-ubi8 #public mongodb base image
+    ports:
+      - "27018:27017" # Change to the appropriate port if needed
+    volumes:
+      - mongo_data:/data/db
+
+  actus-riskserver-ce: # specify service name as specified in application.properties of actus-service
+    image: fnparr/actus-riskserver-ce:mdb27018   # image downloaded from dockerhub if not available locally 
+    ports:
+      - "8082:8082" # Change to the appropriate port if needed
+
+  actus-server-rf20:
+    image: fnparr/actus-server-rf20:nodb # image downloaded from dockerhub if not available locally
+    ports:
+      - "8083:8083"  # Change to the appropriate port if needed
+
+  actus-rshiny-demo:
+    image: fnparr/actus-rshiny-demo:b03  # image downloaded from dockerhub if not available locally 
+    ports:
+      - "3000:3838" # Change to a different external port change 3000 to XXXX if necessary  
+volumes:
+  mongo_data:
