@@ -1,5 +1,5 @@
-# docker-actusrf20
-Source + dockerfiles  to build docker images for actus-server and actus-riskserver with rfAPI 2.0
+# docker-actus-rf20 
+This Source + dockerfiles  to build docker images for actus-server and actus-riskserver with rfAPI 2.0
 ## Overview
 This repository provides materials to build and configure a network of docker containers which can simulate the cash flows of financial contracts defined with the ACTUS standard using different risk scenarios - risk modelling environments. The risk scenarios are defined in a risk service which is a separate docker container from the ACTUS server providing the contract type sensitive cashflow simulation logic.  
 ## Recommended QUICKSTART ACTUS service configuration 
@@ -11,14 +11,13 @@ For new ACTUS users wanting to deploy and ACTUS contract simulation service quic
 
 In this configuration, installing the dockerized mongodb database container to listen on port 27018 will reduce the risk of port collisions with any existing installed mongodb service.
 
-## QUICK START Deployment of an initial ACTUS service using Docker Compose 
-### Steps
-#### Prerequisites
+## QUICK START Deployment of an initial ACTUS service using Docker Compose - Steps
+### Prerequisites
 *   You must have docker (a docker daemon) installed in your environment. Installing Docker Desktop is a convenient way to do this. Documentation on how to install Docker Desktop can be found under: https://docs.docker.com/desktop/ 
 *   Ports 8082 8083 3000 and 27018 in your work environment must be available ( i.e. not in use by some other application )
     *  If this quickstart ACTUS deployment is being run a second time - you may need to stop and exit previous processes using these ports      
 
-#### Installation
+### Installation
 1.  Navigate to a folder where you want to install your ACTUS service - we will refer to this folder as ACTUS_BASE
 2.  Clone this git repository to a local copy in your ACTUS_BASE folder using the command: > git clone https://github.com/fnparr/docker-actus-rf20.git
 3.  Navigate to the ACTUS_BASE/docker-actus-rf20 folder
@@ -39,7 +38,7 @@ At this point if you have docker desktop installed - you should be able to see i
          *    actus-rshiny-demo:b03
          *    mongodb
 
-#### Experiment with the actus-rshiny-demo to see how ACTUS can simulate contract cashflows 
+### Experiment by using the actus-rshiny-demo to see how ACTUS can simulate contract cashflows 
 After bringing up the the quickstart network you can use the actus Rshiny demonstration to see how an ACTUS service can simulate
 the future cashflows of a single ACTUS contract or a portfolio of ACTUS contracts under different interest rate risk scenarios. 
 
@@ -47,10 +46,13 @@ Successful operation of the reactive RShiny demonstration will also validate tha
 in installed and running as expected. 
 
 1. Point a browser at localhost:3000
-2. Go to the help tab and set the target actus-server t be: **http://host.docker.internal:8083/ ** ( you need the / at the end and http NOT https ). 
+2. Go to the help tab and set the target actus-server t0 be:  host.docker.internal:8083/  ( you need the / at the end and http NOT https ). 
 3. Click on the loan contract cashflow tab
 
-#### Experiment with curl commands requesting ACTUS services from the command line 
+The demonstration is reactive (point and click) and to a degree self documenting. A deeper explanation of the concepts behind this demo is 
+available at https://documentation.actusfrf.org/docs/dadfir3-demo/Demo%20User%20Guide.
+
+### Experiment with curl commands requesting ACTUS services from the command line 
 The following steps can be used to validate that you have a working QuickStart ACTUS installation. 
 If you want to build an application using an ACTUS service to simulate future cashflows of an ACTUS contract defined by you,
 using interest rate and market risk scnarios defined by you, the flow through your application is likely to match some part  or subset  
@@ -71,13 +73,39 @@ If all of the above tests run as expected, you have a working actus-riskserver-c
 persistent storage in a mongodb container and an actus-riskserver. capable of simulating contract. At this point the 
 more complete sequence of tests in ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB/TestB_script.txt can be run.
 
-## Alternate ACTUS Service configurations
+### View, test,  or stop your docker compose network
+Use Docker Desktop Dashboard to view the docker compose network you have started.
+
+The sequence of commands in docker-actus-rf20/actus-riskserver-ce/actus-riskservice/tests/TestB_script.txt
+can be run from a terminal to validate that the installation is working 
+
+To stop the network:
+*   use the stop button in Docker Desktop Dashboard. or
+*   CNTROL C in the terminal window where you issued > docker compose YYY up, or
+*   from any command line: > docker compose XXXX down
+
+where YYY is the name of the docker compose configuration and XXX is the name of the docker compose network which you started. 
+
+## Alternate docker-ACTUS network configurations
+### bringing up an ACTUS service network without the actus-rshinydemo container
+If you just want to install docker containers for:
+*   actus-server-rf20
+*   actus-riskserver-ce
+*   mongodb
+use docker network definition: no-rshinydemo-docker-actus-rf20.yml in place of quickstart-docker-actus-rf20.yml.
+   
 ### Using an already installed MongoDb service 
 If you have a mongodb database service already installed in your work environment, you may want to use that to persistently save created risk entities 
 (i.e. scenarios, reference Indexes, and behavior models). The default is that the mongodb service is installed to listen on port 27017. 
 
 In that case you will want to bring up config1-docker-actus-rf20.yml as your docker compose network.
-The config1 network will pull required images which are needed but not available locally from a public docker hub repository and save them in local docker environment.
+The no-mongo-docker-actus-rf20.yml network definition in place of quickstart-docker-actus-rf20.yml. 
+This will install containers for:
+*   actus-server-rf2
+*   actus-riskservice-ce
+
+The actus-riskserver will try to contect to a previously installed local mongodb service listening for requests on port 27017 and save risk modelling artifacts there. 
+
 It is also possible to explicitly download from the public fnparr/ dockerhub registry or build locally the images:
 *  fnparr/actus-server-rf20:mdb27017
 *  fnparr/actus-riskserver-ce:mdb27017
@@ -110,16 +138,7 @@ Steps.
    * building in your local environment is described below
 4. Go into  the docker-actus-rf20 folder
    * For config1:  > docker compose -f config1-docker-actus-rf20.yml -p config1-docker-actus-rf20 up
-   * For config2:  > docker compose -f config2-docker-actus-rf20.yml -p config2-docker-actus-rf20 up
-
-### View, test,  or stop your docker compose network
-Use Docker Desktop Dashboard to view the docker compose network you have started.
-
-The sequence of commands in docker-actus-rf20/actus-riskserver-ce/actus-riskservice/tests/TestB_script.txt
-can be run from a terminal to validate that the installation is working 
-
-To stop the network use the stop button in Docker Desktop Dashboard , or CNTROL C in the terminal 
-window where you issued > docker compose ... up will do it. 
+   * For config2:  > docker compose -f config2-docker-actus-rf20.yml -p config2-docker-actus-rf20 up 
 
 ### Building images locally using the provided Dockerfiles
 For example - to build the image fnparr/actus-server-rf20:mdb27017 
