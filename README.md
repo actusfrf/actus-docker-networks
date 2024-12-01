@@ -40,7 +40,15 @@ At this point if you have docker desktop installed - you should be able to see i
          *    mongodb
 
 #### Experiment with the actus-rshiny-demo to see how ACTUS can simulate contract cashflows 
- *(MORE GUIDANCE NEEDED HERE)*
+After bringing up the the quickstart network you can use the actus Rshiny demonstration to see how an ACTUS service can simulate
+the future cashflows of a single ACTUS contract or a portfolio of ACTUS contracts under different interest rate risk scenarios. 
+
+Successful operation of the reactive RShiny demonstration will also validate that your quickstart-docker-actus-rf20 configuration
+in installed and running as expected. 
+
+1. Point a browser at localhost:3000
+2. Go to the help tab and set the target actus-server t be: **http://host.docker.internal:8083/ ** ( you need the / at the end and http NOT https ). 
+3. Click on the loan contract cashflow tab
 
 #### Experiment with curl commands requesting ACTUS services from the command line 
 The following steps can be used to validate that you have a working QuickStart ACTUS installation. 
