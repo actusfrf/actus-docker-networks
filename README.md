@@ -1,17 +1,21 @@
 # docker-actus-rf20 
-This Source + dockerfiles  to build docker images for actus-server and actus-riskserver with rfAPI 2.0
 ## Overview
-This repository provides materials to build and configure a network of docker containers which can simulate the cash flows of financial contracts defined with the ACTUS standard using different risk scenarios - risk modelling environments. The risk scenarios are defined in a risk service which is a separate docker container from the ACTUS server providing the contract type sensitive cashflow simulation logic.  
-## Recommended QUICKSTART ACTUS service configuration 
+This repository provides materials to build and configure a network of docker containers which can simulate the cash flows of financial contracts defined with the ACTUS standard using different risk scenarios - risk modelling environments. The risk scenarios are defined in a risk service which is a separate docker container from the ACTUS server providing the contract type sensitive cashflow simulation logic.
+
+The repository includes source and dockerfiles  to build docker images for actus-server and actus-riskserver with rfAPI 2.0 .
+It also has docker compose files defining quickstart configurations for:
+* a basic ACTUS service configuration - ACTUS service, ACTUS RiskService, MongoDB containers
+* an ACTUS Demonstration configuration - ACTUS service, ACTUS RiskService, MongoDB, Rshiny ACTUS Demo containers
+* an ACTUS service configured to use an existing MongoDB service - ACTUS service, ACTUS Riskservice containers only  
+## Recommended QUICKSTART ACTUS SERVICE configuration 
 For new ACTUS users wanting to deploy and ACTUS contract simulation service quickly and start experimenting with it, it is recommended for an initial network to include:
 *  actus-server-rf20 docker container - with a contract simulation API and contract type specific logic to simulate future cashflows of any contract
 *  actus-riskserver-ce docker container - providing an external community-edition riskservice with a risk entity store api and the risk factor 2.0 interface to provide the actus-server-rf20 risk model observation results
 *  a mongodb docker container providing persistent storage for risk entities created using the risk entity store api to the actus-riskserver-ce
-*  an actus-rshiny-demo docker container providing a reactive demo showing how an actus service can be used to simulate futurecashflows of ACTUS contracts and portfolios under different interest rate risk scenarios 
 
 In this configuration, installing the dockerized mongodb database container to listen on port 27018 will reduce the risk of port collisions with any existing installed mongodb service.
 
-## QUICK START Deployment of an initial ACTUS service using Docker Compose - Steps
+## QUICKSTART Deployment of an initial ACTUS SERVICE using Docker Compose - Steps
 ### Prerequisites
 *   You must have docker (a docker daemon) installed in your environment. Installing Docker Desktop is a convenient way to do this. Documentation on how to install Docker Desktop can be found under: https://docs.docker.com/desktop/ 
 *   Ports 8082 8083 3000 and 27018 in your work environment must be available ( i.e. not in use by some other application )
@@ -35,22 +39,7 @@ At this point if you have docker desktop installed - you should be able to see i
      *   if you click to expand this - running containers: 
          *    actus-server-rf20:nodb
          *    actus-riskserver-ce:mdb27018
-         *    actus-rshiny-demo:b03
          *    mongodb
-
-### Experiment by using the actus-rshiny-demo to see how ACTUS can simulate contract cashflows 
-After bringing up the the quickstart network you can use the actus Rshiny demonstration to see how an ACTUS service can simulate
-the future cashflows of a single ACTUS contract or a portfolio of ACTUS contracts under different interest rate risk scenarios. 
-
-Successful operation of the reactive RShiny demonstration will also validate that your quickstart-docker-actus-rf20 configuration
-in installed and running as expected. 
-
-1. Point a browser at localhost:3000
-2. Go to the help tab and set the target actus-server t0 be:  host.docker.internal:8083/  ( you need the / at the end and http NOT https ). 
-3. Click on the loan contract cashflow tab
-
-The demonstration is reactive (point and click) and to a degree self documenting. A deeper explanation of the concepts behind this demo is 
-available at https://documentation.actusfrf.org/docs/dadfir3-demo/Demo%20User%20Guide.
 
 ### Experiment with curl commands requesting ACTUS services from the command line 
 The following steps can be used to validate that you have a working QuickStart ACTUS installation. 
@@ -73,7 +62,7 @@ If all of the above tests run as expected, you have a working actus-riskserver-c
 persistent storage in a mongodb container and an actus-riskserver. capable of simulating contract. At this point the 
 more complete sequence of tests in ACTUS_BASE/docker-actus-rf20/actus-riskserver-ce/actus-riskservice/testB/TestB_script.txt can be run.
 
-### View, test,  or stop your docker compose network
+### View, test,  or stop a docker compose network - for any of the above examples
 Use Docker Desktop Dashboard to view the docker compose network you have started.
 
 The sequence of commands in docker-actus-rf20/actus-riskserver-ce/actus-riskservice/tests/TestB_script.txt
@@ -86,14 +75,54 @@ To stop the network:
 
 where YYY is the name of the docker compose configuration and XXX is the name of the docker compose network which you started. 
 
+## An Alternate QUICK ACTUS DEMO configuration - exploring use of ACTUS with a reactive R-Shiny demo 
+For new ACTUS users wanting to start experimenting with using ACTUS for contract cashflow simulations quickly, it is recommended for an initial network to include:
+*  actus-server-rf20 docker container - with a contract simulation API and contract type specific logic to simulate future cashflows of any contract
+*  actus-riskserver-ce docker container - providing an external community-edition riskservice with a risk entity store api and the risk factor 2.0 interface to provide the actus-server-rf20 risk model observation results
+*  a mongodb docker container providing persistent storage for risk entities created using the risk entity store api to the actus-riskserver-ce
+*  an actus-rshiny-demo docker container providing a reactive demo showing how an actus service can be used to simulate futurecashflows of ACTUS contracts and portfolios under different interest rate risk scenarios 
+
+### Prerequisites
+*   You must have docker (a docker daemon) installed in your environment. Installing Docker Desktop is a convenient way to do this. Documentation on how to install Docker Desktop can be found under: https://docs.docker.com/desktop/ 
+*   Ports 8082 8083 3000 and 27018 in your work environment must be available ( i.e. not in use by some other application )
+    *  If this quickstart ACTUS deployment is being run a second time - you may need to stop and exit previous processes using these ports      
+
+### Installation
+1.  Navigate to a folder where you want to install your ACTUS service - we will refer to this folder as ACTUS_BASE
+2.  Clone this git repository to a local copy in your ACTUS_BASE folder using the command: > git clone https://github.com/fnparr/docker-actus-rf20.git
+3.  Navigate to the ACTUS_BASE/docker-actus-rf20 folder
+4.  Issue the command: > docker compose -f rshinydemo-docker-actus-rf20.yml -p rshinydemo-docker-actus-rf20 up
+
+The teminal where you issued this command will start displaying console scripts of the started containers and network. 
+
+At this point if you have docker desktop installed - you should be able to see in its dashboard:
+*    In the images panel, locally copied and saved images for:
+     * actus-server-rf20:27018
+     *   actus-riskserver-ce:27018
+     *   mongodb
+*    in the containers panel
+     *   a docker-compose network named quickstart-docker-actus-rf20
+     *   if you click to expand this - running containers: 
+         *    actus-server-rf20:nodb
+         *    actus-riskserver-ce:mdb27018
+         *    actus-rshiny-demo:b03
+         *    mongodb
+
+### Experiment by using the actus-rshiny-demo to see how ACTUS can simulate contract cashflows 
+After bringing up the the quickstart network you can use the actus Rshiny demonstration to see how an ACTUS service can simulate the future cashflows of a single ACTUS contract or a portfolio of ACTUS contracts under different interest rate risk scenarios. 
+
+Successful operation of the reactive RShiny demonstration will also validate that your quickstart-docker-actus-rf20 configuration
+in installed and running as expected. 
+
+1. Point a browser at localhost:3000
+2. Go to the help tab and set the target actus-server t0 be:  host.docker.internal:8083/  ( you need the / at the end and http NOT https ). 
+3. Click on the loan contract cashflow tab
+
+The demonstration is reactive (point and click) and to a degree self documenting. A deeper explanation of the concepts behind this demo is 
+available at https://documentation.actusfrf.org/docs/dadfir3-demo/Demo%20User%20Guide.
+
+
 ## Alternate docker-ACTUS network configurations
-### bringing up an ACTUS service network without the actus-rshinydemo container
-If you just want to install docker containers for:
-*   actus-server-rf20
-*   actus-riskserver-ce
-*   mongodb
-use docker network definition: no-rshinydemo-docker-actus-rf20.yml in place of quickstart-docker-actus-rf20.yml.
-   
 ### Using an already installed MongoDb service 
 If you have a mongodb database service already installed in your work environment, you may want to use that to persistently save created risk entities 
 (i.e. scenarios, reference Indexes, and behavior models). The default is that the mongodb service is installed to listen on port 27017. 
