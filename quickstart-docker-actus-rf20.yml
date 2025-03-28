@@ -1,19 +1,37 @@
+version: '3.8'
+
 services:
-  mongodb: #specify the service name as specified in application.properties of actus-service / actus-riskservice
-    image: mongodb/mongodb-community-server:6.0-ubi8 #public mongodb base image
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    command: mongod --bind_ip_all
     ports:
-      - "27018:27017" # Change to the appropriate port if needed
+      - "27017:27017"  
     volumes:
       - mongo_data:/data/db
+    networks:
+      - actus-network
 
-  actus-riskserver-ce: # specify service name as specified in application.properties of actus-service
-    image: fnparr/actus-riskserver-ce:mdb27018   #currently local image (needs to be built first) will be replaced with a published imaged
+  actus-riskserver-ce:
+    image: mtoub/actus-riskserver-ce:mdb27018
     ports:
-      - "8082:8082" # Change to the appropriate port if needed
+      - "8082:8082"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/actusdb
+    depends_on:
+      - mongodb
+    networks:
+      - actus-network
 
   actus-server-rf20:
-    image: fnparr/actus-server-rf20:nodb #currently local image (needs to be built first) will be replaced with a published image
+    image: mtoub/actus-server-rf20:nodb
     ports:
-      - "8083:8083"  # Change to the appropriate port if needed
+      - "8083:8083"
+    networks:
+      - actus-network
+
 volumes:
   mongo_data:
+
+networks:
+  actus-network:
+    driver: bridge
